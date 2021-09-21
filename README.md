@@ -20,3 +20,5 @@ git branch branch_one
 ```sh
 git checkout branch_one
 ``` 
+
+### 5. Зміни в файлі README.md на гілці master не відображаються томущо попередній коміт виконувався на гілку branch_one.
