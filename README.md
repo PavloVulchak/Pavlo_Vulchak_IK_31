@@ -4,3 +4,10 @@
 ```sh
 git clone git@github.com:PavloVulchak/Lab01.git
 ``` 
+
+### 2. ~
+
+### 3. Я визначив хеш попереднього коміту `bfa00c101e4625eee743513420bf3fe554a316a3` за допопомогою команди:
+```sh
+git log
+``` 
