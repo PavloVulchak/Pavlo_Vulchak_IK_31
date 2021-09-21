@@ -35,6 +35,5 @@ git pull
 ```
 
 ### 10. Вставлення зображення в README.md файл :
-![alt text](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/tree/master/Lab1/foto_github.png "Add foto") 
+![alt text](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab1/foto_github.png "Add foto") 
 
- 
