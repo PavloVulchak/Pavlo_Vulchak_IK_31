@@ -11,3 +11,12 @@ git clone git@github.com:PavloVulchak/Lab01.git
 ```sh
 git log
 ``` 
+
+### 4. Я створив нову гілку за допопомогою команди:
+```sh
+git branch branch_one
+``` 
+### і переключився на цю гілку за допопомогою команди:
+```sh
+git checkout branch_one
+``` 
