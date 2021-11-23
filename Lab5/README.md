@@ -189,11 +189,11 @@ test_app.py ....                                                         [100%]
 ============================== 4 passed in 0.24s ===============================
 01:10:04 pavlovulchak ~/TPIS/Pavlo_Vulchak_IK_31/Lab5 (master) $ 
 ```
-Головна сторінка:
+* Головна сторінка:
 ![task_9](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab5/picture/task_9_1.png)
-Сторінка hits:
+* Сторінка hits:
 ![task_9](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab5/picture/task_9_2.png)
-Сторінка logs:
+* Сторінка logs:
 ![task_9](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab5/picture/task_9_3.png)
 #### 10. Зупинив проект натиснувши Ctrl+C та почистив всі ресурси `Docker` за допомогою `make`.
 ```text
