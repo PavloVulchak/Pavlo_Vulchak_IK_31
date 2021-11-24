@@ -282,3 +282,115 @@ Deleted: sha256:e8b689711f21f9301c40bf2131ce1a1905c3aa09def1de5ec43cf0adf652576e
 REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
 00:38:44 pavlovulchak ~/TPIS/Pavlo_Vulchak_IK_31/Lab5 (master) $ 
 ```
+
+#### 13. Перейшов до іншого варіанту з використанням `docker-compose.yaml`. Для цього створив даний файл у кореновій папці проекту та заповнив вмістом з прикладу. Проект який я буду розгортити за цим варіантом трохи відрізняється від першого тим що у нього зявляється дві мережі: приватна і публічна.
+Файл `docker-compose.yaml`:
+```text
+version: '3.8'
+services:
+  hits:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: pavlovulchak/lab4:compose-app
+    container_name: app
+    depends_on:
+      - redis
+    networks:
+      - public
+      - secret
+    ports:
+      - 80:5000
+    volumes:
+      - hits-logs:/hits/logs
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    image: pavlovulchak/lab4:compose-tests
+    container_name: tests
+    depends_on:
+      - hits
+    networks:
+      - public
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - secret
+volumes:
+  redis-data:
+    driver: local
+  hits-logs:
+    driver: local
+
+networks:
+  secret:
+    driver: bridge
+  public:
+    driver: bridge
+```
+
+#### 14. Перевірив чи `Docker-compose` встановлений та працює у моїй системі, а далі просто запускаю `docker-compose`:
+```text
+docker-compose --version
+sudo docker-compose -p lab5 up
+```
+```text
+09:25:32 pavlovulchak ~/TPIS/Pavlo_Vulchak_IK_31/Lab5 (master) $ docker-compose --version
+docker-compose version 1.29.2, build 5becea4c
+09:33:50 pavlovulchak ~/TPIS/Pavlo_Vulchak_IK_31/Lab5 (master) $
+```
+
+#### 15. Перевірив чи працює веб-сайт. Дана сторінка відображається за адресою `http://172.19.0.2:5000/`:
+![task_15](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab5/picture/task_15.png)
+
+#### 16. Перевірив чи компоуз створив докер імеджі. Всі теги коректні і назва репозиторія вказана коректно:
+```text
+10:01:08 pavlovulchak ~/TPIS/Pavlo_Vulchak_IK_31/Lab5 (master) $ sudo docker images
+[sudo] password for pavlovulchak: 
+REPOSITORY          TAG             IMAGE ID       CREATED          SIZE
+pavlovulchak/lab4   compose-tests   9db98127b13e   20 minutes ago   301MB
+pavlovulchak/lab4   compose-app     94499c320c52   22 minutes ago   299MB
+python              3.8-slim        64458f531a7e   6 days ago       122MB
+redis               alpine          5c08f13a2b92   10 days ago      32.4MB
+10:01:47 pavlovulchak ~/TPIS/Pavlo_Vulchak_IK_31/Lab5 (master) $ 
+```
+
+#### 17. Зупинив проект натиснувши `Ctrl+C` і почистітив ресурси створені компоуз командою `docker-compose down`.
+
+#### 18. Завантажив створені імеджі до Docker Hub репозиторію за допомого команди `sudo docker-compose push`.
+
+#### 19. Що на Вашу думку краще використовувати `Makefile` чи `docker-compose.yaml`? - На мою думку `Makefile` при використанні більш інтуїтивно зрозумілий, адже можна в ньому побачити які команди запускаються, але і в одночас треба знати які команди використовувати. На рахунок `docker-compose.yaml` він менш зрозуміліший і там не показано команди які потрібно запустити а лише вказано що потрібно запусти, підклучити чи збілдити і користувача не хвилює як воно це робить. Як для мене мені обидва методи добрі.
+
+#### 20. (Завдання) Оскільки Ви навчились створювати docker-compose.yaml у цій лабораторній то потрібно:
+- Cтворив `docker-compose.yaml` для лабораторної №4. Компоуз повинен створити два імеджі для `Django` сайту та моніторингу, а також їх успішно запустити.
+Файлик `docker-compose.yaml`:
+```text
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pavlovulchak/lab4:compose-jango
+    container_name: django
+    networks:
+      - public
+    ports:
+      - 8000:8000
+  monitoring:
+    build:
+      context: .
+      dockerfile: Dockerfile.site
+    image: pavlovulchak/lab4:compose-monitoring
+    container_name: monitoring
+    network_mode: host
+
+networks:
+  public:
+    driver: bridge
+```
+#### 21. Після успішного виконання роботи я відредагував свій `README.md` у цьому репозиторію та створив pull request.
