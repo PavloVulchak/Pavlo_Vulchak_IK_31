@@ -45,6 +45,7 @@ jobs:
       script:
         - make run
         - make test-app
+        - make docker-push
 branches:
   only:
     - master
