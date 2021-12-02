@@ -10,8 +10,12 @@ jobs:
       python: 3.8
       install:
         - cd ./Lab_2/
-        - pipenv install
-      script: pipenv run pytest tests/tests.py || true
+        - pipenv install requests
+        - pipenv install ntplib
+        - pipenv install pytest
+      script: 
+        - pipenv run pytest tests/tests.py || true
+        - pipenv run python3 app.py || true
     - stage: "Build Lab 3."
       name: "Run Djungo Server and test it accessibility. Fail to run and test"
       python: 3.8
