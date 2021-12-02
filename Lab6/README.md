@@ -122,4 +122,7 @@ nohup pipenv run server > ./ci-build.log &
 nohup pipenv run python monitoring.py || true &
 exit 0
 ```
+Запуск білда в `Travis-ci`:
+![task_6_1](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab6/picture/task_61.png)
+![task_6_2](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab6/picture/task_62.png)
 #### 7. Після успішного виконання роботи відредагував свій персональний README.md у цьому репозиторію та створив pull request.
