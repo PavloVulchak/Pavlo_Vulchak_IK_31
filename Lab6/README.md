@@ -67,3 +67,59 @@ exit 0
 ![task_4_1](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab6/picture/task_4_1.png)
 ![task_4_2](https://github.com/PavloVulchak/Pavlo_Vulchak_IK_31/blob/master/Lab6/picture/task_4_2.png)
 Оскільки сервер на `Django` для 3 лабораторної запустився і не вимикався я примусово зупинив білд для цього під-тесту. Всі інші під-тести пройшли успішно. 
+#### 5. Для того щоб налаштувати інтеграцію з `Docker Hub` прочитав документацію.
+#### 6. (Завдання). Білд представлений у даному репозиторію не враховує мої попередні домашні завдання, тому:
+* ##### Переписав білд `lab 2` з використання кроків записаних у `Makefile`.
+```text
+    - stage: "Build Lab 2."
+      name: "Run tests for Lab 2"
+      python: 3.8
+      install:
+        - cd ./Lab_2/
+        - pipenv install requests
+        - pipenv install ntplib
+        - pipenv install pytest
+      script: 
+        - pipenv run pytest tests/tests.py || true
+        - pipenv run python3 app.py || true
+```
+* ##### Переписав білд `lab 4` де я створював ще один `DockerFile` для контейнера моніторингу.
+```text
+    - stage: "Build Lab 4."
+      name: "Build Docker images & Home task"
+      services:
+        - docker
+      install:
+        - cd ./Lab4/
+      script:
+        - docker build -f Dockerfile -t pavlovulchak/lab4:django-travis .
+        - docker build -f Dockerfile.site -t pavlovulchak/lab4:monitoring-travis .
+        - docker images
+        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push pavlovulchak/lab4:django-travis; docker push pavlovulchak/lab4:monitoring-travis; else echo "PR skip deploy"; fi
+```
+* ##### Переписав білд `lab 5` і додав кроки `Makefile` які робили `push` імеджів у `Docker Hub` репозиторій.
+```text
+    - stage: "Build Lab 5."
+      name: "Build and run Docker images via make"
+      services:
+        - docker
+      install:
+        - cd ./Lab5/
+        - make app
+        - make tests
+      script:
+        - make run
+        - make test-app
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - make docker-push
+```
+* ##### Посилання на мій [***Travis***](https://app.travis-ci.com/github/PavloVulchak/Pavlo_Vulchak_IK_31) білд.
+Відредагував файл `./Lab3/scripts/travis-build.sh`, щоб запуск моніторингу відбувався у фоні щоб якщо `Django` сервер запуститься і моніторинг буде працювати білд безперервно і час не йшов.
+```sh
+#!/bin/bash
+set -ev
+nohup pipenv run server > ./ci-build.log &
+nohup pipenv run python monitoring.py || true &
+exit 0
+```
+#### 7. Після успішного виконання роботи відредагував свій персональний README.md у цьому репозиторію та створив pull request.
